@@ -1,0 +1,104 @@
+
+
+.form-button {
+  background-color: green;
+  height: 50px;
+}
+
+.top-margin {
+  margin-top: 35px;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin-top: 0px;
+  margin-left: -15px;
+}
+
+rect {
+  width: 100%;
+  height: 100%;
+  fill: blue;
+}
+
+.graticule {
+  fill: none;
+  stroke: grey;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.geography {
+  fill: whitesmoke;
+  stroke: grey;
+  stroke-width: 0.5px;
+}
+
+.geography.selected {
+  fill: #B7F1E0;
+}
+
+.geography.selected:hover {
+  fill: #4ADCB2;
+}
+
+.hidden {
+  visibility: hidden;
+  display: none;
+}
+
+/* Teams */
+
+.team {
+
+}
+
+.dare-to-lead {
+  fill: #ffffff;
+}
+
+.great-britain {
+  fill: #0d233c;
+}
+
+.garmin {
+  fill: #000000;
+}
+
+.hotelplannerdotcom {
+  fill: #f26722;
+}
+
+.liverpool-2018 {
+  fill: #ed1968;
+}
+
+.nasdaq {
+  fill: #27ade3;
+}
+
+.psp-logistics {
+  fill: #de1f2b;
+}
+
+.qingdao {
+  fill: #f6eb14;
+}
+
+.sanya-serenity-coast {
+  fill: #afd136;
+}
+
+.unicef {
+  fill: #166fb8;
+}
+
+.visit-seattle {
+  fill: #126634;
+}
+
+.greenings {
+  fill: #cdcccb;
+}

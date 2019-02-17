@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/robisoniv/clipper/issues"
   },
-  "homepage": "https://github.com/robisoniv/clipper#readme"
+  "homepage": "https://github.com/robisoniv/clipper#readme",
+  "dependencies": {
+    "d3": "^5.9.0",
+    "express": "^4.16.4"
+  }
 }
