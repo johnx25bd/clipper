@@ -1,0 +1,16 @@
+{
+  "name": "analyzing-clipper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "analysis.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/turf": "^5.1.6",
+    "babel-runtime": "^6.26.0",
+    "pandas-js": "^0.2.4"
+  }
+}
