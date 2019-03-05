@@ -7,9 +7,13 @@
   margin-top: 35px;
 }
 
-#content {
+#race-content {
   height: 100%;
-  background-color: green;
+  background-color: none;
+}
+
+.map-content text {
+  cursor: pointer;
 }
 
 svg {
@@ -52,6 +56,15 @@ rect {
   display: none;
 }
 
+img.skipper { /* CSS from for continuity https://www.clipperroundtheworld.com/skipper-report/dare-to-lead/race13-day6-team29 */
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  overflow: hidden;
+  display: block;
+  margin-bottom: 5px;
+}
+
 /* Teams */
 .team {}
 
@@ -60,7 +73,7 @@ rect {
 }
 
 .fleet path {
-  fill:none;
+  fill: none;
 }
 
 .dare-to-lead {
@@ -119,7 +132,6 @@ rect {
 }
 
 .greenings {
-
   fill: #cdcccb;
   stroke: #cdcccb;
 }
