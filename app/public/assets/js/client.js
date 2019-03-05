@@ -27,14 +27,23 @@ var worldJson = 'data/ne_110m_land.json';
 // D3 geo - let's make maps
 // Mike Bostock is a 👑
 
+var fleetData,
+  raceBBox,
+  raceFinish,
+  raceScale,
+  raceTranslate,
+  fleetTracks,
+  fleetPositions,
+  mapContent;
+
 
 var proj = d3.geoOrthographic();
-  // .center([-70, 50]);
+// .center([-70, 50]);
 
 
 var graticule = d3.geoGraticule();
 var path = d3.geoPath(proj);
-  // .zoom(9);
+// .zoom(9);
 
 var worldmap = d3.select('#world')
   .attr('viewbox', function() {
@@ -43,61 +52,72 @@ var worldmap = d3.select('#world')
 
 var worldg = worldmap.append('g').classed('worldg', true);
 
-d3.json(worldJson, (data) => {
+var fleetJsonPath = 'data/eastNA-metadata.json'
 
-  // Draw geometries, assigning each element appropriate attributes
-  // based on metadata contained in geojson
-  worldg.selectAll('path')
-    .data(data.features)
-    .enter()
-    .append('path')
-    .attr('d', path)
-    .attr('class', 'geography');
+d3.queue() // from https://github.com/d3/d3-queue
+  .defer(loadWorld, worldJson)
+  .defer(loadFleetData, fleetJsonPath)
+  .await(function(error, world, fleet) {
+    if (error) throw error;
+    console.log('WORLD', world);
+    console.log('FLEET', fleet);
+  });
 
-  // then draw graticules over geography
-  worldg.append('path')
-    .datum(graticule)
-    .attr('class', 'graticule')
-    .attr('d', path);
-});
+
+function loadWorld(jsonPath) {
+  d3.json(jsonPath, (data) => {
+
+    // Draw geometries, assigning each element appropriate attributes
+    // based on metadata contained in geojson
+    worldg.selectAll('path')
+      .data(data.features)
+      .enter()
+      .append('path')
+      .attr('d', path)
+      .attr('class', 'geography');
+
+    // then draw graticules over geography
+    worldg.append('path')
+      .datum(graticule)
+      .attr('class', 'graticule')
+      .attr('d', path);
+  });
+}
 
 var fleetMap = worldmap.append('g')
   .classed('fleet', true);
 
 
-var fleetData,
-  raceBBox,
-  raceFinish,
-  raceScale,
-  raceTranslate,
-  fleetTracks,
-  fleetPositions;
 
-d3.json('data/eastNA-metadata.json', (fleet) => {
-  // console.log(fleet);
-  fleetData = fleet,
-    raceBBox = d3.geoBounds(fleetData),
-    raceFinish = fleet.metadata.finish;
 
-  var timestampList = fleetData.features[0].properties.timestamps;
-  fleetData.dates = timestampList.map((ts) => { return new Date(ts * 1000)});
+function loadFleetData(jsonPath) {
+  d3.json(jsonPath, (fleet) => {
+    // console.log(fleet);
+    fleetData = fleet,
+      raceBBox = d3.geoBounds(fleetData),
+      raceFinish = fleet.metadata.finish;
+
+    var timestampList = fleetData.features[0].properties.timestamps;
+    fleetData.dates = timestampList.map((ts) => {
+      return new Date(ts * 1000)
+    });
     // proj.center(raceFinish);
     //
     // raceScale = 0.95 / Math.max((raceBBox[1][0] - raceBBox[0][0]) / dims.width, (raceBBox[1][1] - raceBBox[0][1]) / dims.height), // from https://bl.ocks.org/mbostock/4707858
     // raceTranslate = [(dims.width - raceScale * (raceBBox[1][0] + raceBBox[0][0])) / 2, (dims.height - raceScale * (raceBBox[1][1] + raceBBox[0][1])) / 2];
 
-  // console.log(fleetData, raceBBox, raceFinish);
+    // console.log(fleetData, raceBBox, raceFinish);
 
-  fleetMap.append('g').classed('fleet-routes', true)
-    .selectAll('path')
-    .data(fleetData.features)
-    .enter()
-    .append('path')
-    .attr('d', path)
-    .attr('class', function (d) {
-      // console.log(d);
-      return d.properties['team-id'] + " route";
-    });
+    fleetMap.append('g').classed('fleet-routes', true)
+      .selectAll('path')
+      .data(fleetData.features)
+      .enter()
+      .append('path')
+      .attr('d', path)
+      .attr('class', function(d) {
+        // console.log(d);
+        return d.properties['team-id'] + " route";
+      });
 
     fleetTracks = fleetMap.append('g').classed('fleet-tracks', true)
       .selectAll('path')
@@ -105,7 +125,7 @@ d3.json('data/eastNA-metadata.json', (fleet) => {
       .enter()
       .append('path')
       .attr('d', path)
-      .attr('class', function (d) {
+      .attr('class', function(d) {
         // console.log(d);
         return d.properties['team-id'] + " track";
       });
@@ -115,33 +135,52 @@ d3.json('data/eastNA-metadata.json', (fleet) => {
       .data(fleetData.features)
       .enter()
       .append('polygon')
-      .attr('class', function (d) {
+      .attr('class', function(d) {
         return d.properties['team-id'];
       })
       .attr('points', '0,15 -5,-5 5,-5');
 
+
     mapContent = fleetMap.append('g').classed('map-content', true)
-      .selectAll('g')
+      .selectAll('text')
       .data(fleetData.metadata.newDays)
       .enter();
 
-    mapContent.append('text')
-        .text((d) => { console.log(d);  })
-        .attr('x', (d) => { return proj(fleetData.metadata.fleetCentroids[d])[0] + 310; })
-        .attr('y', (d) => { return proj(fleetData.metadata.fleetCentroids[d])[1] + 3; })
-        .text((d) => { return fleetData.dates[d].toDateString(); });
+    mapContent
+      .append('text')
+      .text((d) => {
+              return fleetData.dates[d].toDateString();
+            })
+      .attr('x', (d) => {
+        return proj(fleetData.metadata.fleetCentroids[d])[0] + 310;
+      })
+      .attr('y', (d) => {
+        return proj(fleetData.metadata.fleetCentroids[d])[1] + 3;
+      });
 
-    // mapContent.append('line')
-    //   .attr('x1', proj(d.fleetCentroid)[0] + 50)
-    //   .attr('y1', proj(fleetCentroid)[1])
-    //   .attr('x2', proj(fleetCentroid)[0] + 300)
-    //   .attr('y2', proj(fleetCentroid)[1])
-    //   .attr('stroke','green');
+    mapContent
+      .append('line')
+      .attr('x1', (d) => {
+        return proj(fleetData.metadata.fleetCentroids[d])[0] + 50;
+      })
+      .attr('y1', (d) => {
+        return proj(fleetData.metadata.fleetCentroids[d])[1];
+      })
+      .attr('x2', (d) => {
+        return proj(fleetData.metadata.fleetCentroids[d])[0] + 300;
+      })
+      .attr('y2', (d) => {
+        return proj(fleetData.metadata.fleetCentroids[d])[1];
+      })
+      .attr('stroke', 'black')
 
 
     updateFleet(0);
-    updateContent(fleetData.metadata.raceID)
-})
+    updateContent(fleetData.metadata.raceID);
+  })
+
+}
+
 
 
 
@@ -152,34 +191,23 @@ function updateFleet(_index) {
 
   var fleetCentroid = fleetData.metadata.fleetCentroids[_index];
 
-  console.log(fleetCentroid);
-
-
-
   proj
-    .rotate([ -1 * fleetCentroid[0], -1.7 * fleetCentroid[1] ]);
-
-  // var currentScale = proj.scale();
-  // var nextScale = currentScale * 1 / Math.max((raceBBox[1][0] - raceBBox[0][0]) / (dims.width / 1.5), (raceBBox[1][1] - raceBBox[0][1]) / (dims.height / 1.5));
+    .rotate([-1 * fleetCentroid[0], -1.7 * fleetCentroid[1]]);
 
   proj.scale(1500);
-    // .center(fleetCentroid);
 
   d3.selectAll('path')
     .attr('d', path);
 
-  mapContent.append('line')
-
-
-  mapContent.append('text')
-
-
   fleetPositions
-    .attr('transform', function (d) {
+    .attr('transform', function(d) {
       var xy = proj(d.geometry.coordinates[_index])
-      var bearing = turf.bearing(turf.point(d.geometry.coordinates[_index]), turf.point(d.geometry.coordinates[_index + 1]));
-      // console.log(bearing);
-      return "rotate(" + String(bearing + 180) + ' ' + xy[0] + ' ' + xy[1] +") translate(" + xy[0] + ',' + xy[1] + ') scale(0.8)';
+      var bearing = turf.bearing(
+        turf.point(d.geometry.coordinates[_index]),
+        turf.point(d.geometry.coordinates[_index + 1])
+      );
+
+      return "rotate(" + String(bearing + 180) + ' ' + xy[0] + ' ' + xy[1] + ") translate(" + xy[0] + ',' + xy[1] + ') scale(0.8)';
     });
 
   fleetTracks
@@ -189,10 +217,33 @@ function updateFleet(_index) {
         type: "LineString",
         coordinates: d.geometry.coordinates.slice(0, _index)
       });
-  });
+    });
+
+  mapContent.selectAll('text')
+    .attr('x', (d) => {
+      return proj(fleetData.metadata.fleetCentroids[d])[0] + 310;
+    })
+    .attr('y', (d) => {
+      return proj(fleetData.metadata.fleetCentroids[d])[1] + 3;
+    })
+    .on('click', (d) => {
+      updateFleet(d);
+    })
 
 
-
+  mapContent.selectAll('line')
+    .attr('x1', (d) => {
+      return proj(fleetData.metadata.fleetCentroids[d])[0] + 50;
+    })
+    .attr('y1', (d) => {
+      return proj(fleetData.metadata.fleetCentroids[d])[1];
+    })
+    .attr('x2', (d) => {
+      return proj(fleetData.metadata.fleetCentroids[d])[0] + 300;
+    })
+    .attr('y2', (d) => {
+      return proj(fleetData.metadata.fleetCentroids[d])[1];
+    });
 
 
 }
