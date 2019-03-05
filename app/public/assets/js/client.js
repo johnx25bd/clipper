@@ -61,8 +61,9 @@ d3.json(worldJson, (data) => {
     .attr('d', path);
 });
 
-var fleetLines = worldmap.append('g')
+var fleetMap = worldmap.append('g')
   .classed('fleet', true);
+
 
 var fleetData,
   raceBBox,
@@ -72,19 +73,22 @@ var fleetData,
   fleetTracks,
   fleetPositions;
 
-d3.json('data/eastNA-noNans-metadata.json', (fleet) => {
+d3.json('data/eastNA-metadata.json', (fleet) => {
   // console.log(fleet);
   fleetData = fleet,
     raceBBox = d3.geoBounds(fleetData),
     raceFinish = fleet.metadata.finish;
+
+  var timestampList = fleetData.features[0].properties.timestamps;
+  fleetData.dates = timestampList.map((ts) => { return new Date(ts * 1000)});
     // proj.center(raceFinish);
     //
     // raceScale = 0.95 / Math.max((raceBBox[1][0] - raceBBox[0][0]) / dims.width, (raceBBox[1][1] - raceBBox[0][1]) / dims.height), // from https://bl.ocks.org/mbostock/4707858
     // raceTranslate = [(dims.width - raceScale * (raceBBox[1][0] + raceBBox[0][0])) / 2, (dims.height - raceScale * (raceBBox[1][1] + raceBBox[0][1])) / 2];
 
-  console.log(fleetData, raceBBox, raceFinish);
+  // console.log(fleetData, raceBBox, raceFinish);
 
-  fleetLines.append('g').classed('fleet-routes', true)
+  fleetMap.append('g').classed('fleet-routes', true)
     .selectAll('path')
     .data(fleetData.features)
     .enter()
@@ -95,7 +99,7 @@ d3.json('data/eastNA-noNans-metadata.json', (fleet) => {
       return d.properties['team-id'] + " route";
     });
 
-    fleetTracks = fleetLines.append('g').classed('fleet-tracks', true)
+    fleetTracks = fleetMap.append('g').classed('fleet-tracks', true)
       .selectAll('path')
       .data(fleetData.features)
       .enter()
@@ -106,7 +110,7 @@ d3.json('data/eastNA-noNans-metadata.json', (fleet) => {
         return d.properties['team-id'] + " track";
       });
 
-    fleetPositions = fleetLines.append('g').classed('fleet-positions', true)
+    fleetPositions = fleetMap.append('g').classed('fleet-positions', true)
       .selectAll('polygon')
       .data(fleetData.features)
       .enter()
@@ -114,7 +118,26 @@ d3.json('data/eastNA-noNans-metadata.json', (fleet) => {
       .attr('class', function (d) {
         return d.properties['team-id'];
       })
-      .attr('points', '0,15 -5,-5 5,-5')
+      .attr('points', '0,15 -5,-5 5,-5');
+
+    mapContent = fleetMap.append('g').classed('map-content', true)
+      .selectAll('g')
+      .data(fleetData.metadata.newDays)
+      .enter();
+
+    mapContent.append('text')
+        .text((d) => { console.log(d);  })
+        .attr('x', (d) => { return proj(fleetData.metadata.fleetCentroids[d])[0] + 310; })
+        .attr('y', (d) => { return proj(fleetData.metadata.fleetCentroids[d])[1] + 3; })
+        .text((d) => { return fleetData.dates[d].toDateString(); });
+
+    // mapContent.append('line')
+    //   .attr('x1', proj(d.fleetCentroid)[0] + 50)
+    //   .attr('y1', proj(fleetCentroid)[1])
+    //   .attr('x2', proj(fleetCentroid)[0] + 300)
+    //   .attr('y2', proj(fleetCentroid)[1])
+    //   .attr('stroke','green');
+
 
     updateFleet(0);
     updateContent(fleetData.metadata.raceID)
@@ -129,25 +152,33 @@ function updateFleet(_index) {
 
   var fleetCentroid = fleetData.metadata.fleetCentroids[_index];
 
+  console.log(fleetCentroid);
+
+
 
   proj
-    .rotate([ -1 * fleetCentroid[0], -1.2 * fleetCentroid[1] ]);
+    .rotate([ -1 * fleetCentroid[0], -1.7 * fleetCentroid[1] ]);
 
   // var currentScale = proj.scale();
   // var nextScale = currentScale * 1 / Math.max((raceBBox[1][0] - raceBBox[0][0]) / (dims.width / 1.5), (raceBBox[1][1] - raceBBox[0][1]) / (dims.height / 1.5));
 
-  proj.scale(500);
+  proj.scale(1500);
     // .center(fleetCentroid);
 
   d3.selectAll('path')
     .attr('d', path);
+
+  mapContent.append('line')
+
+
+  mapContent.append('text')
 
 
   fleetPositions
     .attr('transform', function (d) {
       var xy = proj(d.geometry.coordinates[_index])
       var bearing = turf.bearing(turf.point(d.geometry.coordinates[_index]), turf.point(d.geometry.coordinates[_index + 1]));
-      console.log(bearing);
+      // console.log(bearing);
       return "rotate(" + String(bearing + 180) + ' ' + xy[0] + ' ' + xy[1] +") translate(" + xy[0] + ',' + xy[1] + ') scale(0.8)';
     });
 
@@ -158,13 +189,11 @@ function updateFleet(_index) {
         type: "LineString",
         coordinates: d.geometry.coordinates.slice(0, _index)
       });
+  });
 
 
-  // fleetPoints
-  //   .attr()
 
-  // var fleetCentroid =
-  })
+
 
 }
 
