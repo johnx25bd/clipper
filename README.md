@@ -2,7 +2,7 @@ Prepare a short 400 word document summarising what the visualisation is aiming t
 
 ## Access
 
-Access the visualization at [adsf](fds) or with the following commands (assuming you have `node` and `npm` installed):
+Access the visualization [here](./docs/public/) or with the following commands (assuming you have `node` and `npm` installed):
 
 ```
 $ git clone git@github.com:robisoniv/clipper.git
@@ -29,4 +29,4 @@ This visualization offered us the opportunity to practice D3.js, along with disp
 
 ## Shortcomings
 
-Several shortcomings exist in the app and visualization, which we would like to address and improve upon over time. In the visualization, gaps in the data exist, where the linestrings are straight for a segment. Clicking dates calls `updateFleet()` with the index of that date in the `fleetData.dates` array. This appears to be updating the position of the `polygon.fleet-positions` elements appended to `fleetMap` in the `loadFleetData()` function in `client.js`. Somehow the polygons are not placed at the end of their respective linestrings, but a distance away. We aren't sure why this is happening, and would like to interpolate points to have a more complete time indexed dataset - because gaps in the fleet data also means certain blog posts aren't 
+Several shortcomings exist in the app and visualization, which we would like to address and improve upon over time. In the visualization, gaps in the data exist, where the linestrings are straight for a segment. Clicking dates calls `updateFleet()` with the index of that date in the `fleetData.dates` array. This appears to be updating the position of the `polygon.fleet-positions` elements appended to `fleetMap` in the `loadFleetData()` function in `client.js`. Somehow the polygons are not placed at the end of their respective linestrings, but a distance away. We aren't sure why this is happening, and would like to interpolate points to have a more complete time indexed dataset - because gaps in the fleet data also means certain blog posts aren't
