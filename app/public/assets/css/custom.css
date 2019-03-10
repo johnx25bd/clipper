@@ -1,0 +1,149 @@
+.form-button {
+  background-color: green;
+  height: 50px;
+}
+
+.top-margin {
+  margin-top: 35px;
+}
+
+nav.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+
+}
+
+.row {
+  margin: 0px !important;
+}
+
+#race-content {
+  height: 100%;
+  background-color: none;
+  margin-top: 70px;
+}
+
+.map-content text {
+  cursor: pointer;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin-top: 0px;
+  margin-left: -15px;
+}
+
+rect {
+  width: 100%;
+  height: 100%;
+  fill: white;
+}
+
+.graticule {
+  fill: none;
+  stroke: grey;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.geography {
+  fill: whitesmoke;
+  stroke: grey;
+  stroke-width: 0.5px;
+}
+
+.geography.selected {
+  fill: #B7F1E0;
+}
+
+.geography.selected:hover {
+  fill: #4ADCB2;
+}
+
+.hidden {
+  visibility: hidden;
+  display: none;
+}
+
+img.skipper { /* CSS from for continuity https://www.clipperroundtheworld.com/skipper-report/dare-to-lead/race13-day6-team29 */
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  overflow: hidden;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Teams */
+.team {}
+
+.route {
+  opacity: 0.2;
+}
+
+.fleet path {
+  fill: none;
+}
+
+.dare-to-lead {
+  fill: #ffffff;
+  stroke: black;
+}
+
+.great-britain {
+  fill: #0d233c;
+  stroke: #0d233c;
+}
+
+.garmin {
+  fill: #000000;
+  stroke: #000000;
+}
+
+.hotelplanner-com {
+  fill: #f26722;
+  stroke: #f26722;
+}
+
+.liverpool-2018 {
+  fill: #ed1968;
+  stroke: #ed1968;
+}
+
+.nasdaq {
+  fill: #27ade3;
+  stroke: #27ade3;
+}
+
+.psp-logistics {
+  fill: #de1f2b;
+  stroke: #de1f2b;
+}
+
+.qingdao {
+  fill: #f6eb14;
+  stroke: #f6eb14;
+}
+
+.sanya-serenity-coast {
+  fill: #afd136;
+  stroke: #afd136;
+}
+
+.unicef {
+  fill: #166fb8;
+  stroke: #166fb8;
+}
+
+.visit-seattle {
+  fill: #126634;
+  stroke: #126634;
+}
+
+.greenings {
+  fill: #cdcccb;
+  stroke: #cdcccb;
+}
