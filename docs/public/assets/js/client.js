@@ -291,7 +291,7 @@ function setUpContentPane() {
       // <p class="card-text">Blogs will go here</p>`;
 
       return `<div class='row'>
-        <div class='col-2'><img class='skipper' src="/assets/imgs/` + teamId + `-skipper.jpg"></div>
+        <div class='col-2'><img class='skipper' src="assets/imgs/` + teamId + `-skipper.jpg"></div>
 
         <div class='col-10'>
           <h5 class="card-title">` + d.properties['team'] + `</h5>
