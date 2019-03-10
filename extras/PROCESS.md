@@ -14,6 +14,8 @@ In order to minimize the computational load on the client, we performed a number
 
 We decided to learn Turf.js for this project, so we could do sophisticated geospatial analysis with NodeJS. This is partly because we found geopandas difficult to install, partly because we didn't want to do our spatial analysis in the browser's console and partly because we thought it'd be cool. Mostly that last one, in fact. And it is - a very powerful library with great documentation.
 
+Substantial effort was required to manipulate the CSVs collected by our Python / bash web scrapers into a format suitable for client-side rendering. We decided to use the geojson FeatureCollection specification, but attached an additional `metadata` attribute, which contained leg-level data along with a few arrays of precomputed values (like fleet centroids) to ease the computational load on the client. Further effort to optimize the trade-off between data loads and computational intensity we've noticed in interactive data visualizations would yield performance improvements.
+
 
 # The Final Challenge
 
