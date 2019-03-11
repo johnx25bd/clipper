@@ -258,6 +258,9 @@ function updateFleet(_index) {
   if (_index < fleetData.metadata.newDays.length) {
     currentDay = _index;
     _index = fleetData.metadata.newDays[_index];
+  } else if (_index == fleetData.metadata.newDays.length) {
+    currentDay = _index;
+    _index = fleetData.dates.length - 1;
   } else {
     currentDay = fleetData.metadata.newDays.findIndex(function (n) {
       return n >= _index;
@@ -278,12 +281,13 @@ function updateFleet(_index) {
   d3.selectAll('path')
     .attr('d', path);
 
+  console.log(_index);
   fleetPositions
     .attr('transform', function(d) {
       var xy = proj(d.geometry.coordinates[_index])
       var bearing = turf.bearing(
         turf.point(d.geometry.coordinates[_index]),
-        turf.point(d.geometry.coordinates[_index + 1])
+        turf.point(d.geometry.coordinates[_index + 1] ? d.geometry.coordinates[_index + 1] :  d.geometry.coordinates[_index])
       );
       return "rotate(" + String(bearing + 180) +
         ' ' + xy[0] + ' ' + xy[1] + ") translate(" +
@@ -381,7 +385,7 @@ $('#last-day').on('click', (e) => {
 
 $('#next-day').on('click', (e) => {
   e.preventDefault();
-  if (currentDay == fleetData.metadata.newDays.length - 1) {
+  if (currentDay == fleetData.metadata.newDays.length) {
     return;
   } else {
     updateFleet(currentDay + 1);
