@@ -24,6 +24,10 @@ nav.navbar {
   margin-top: 70px;
 }
 
+#race-date {
+  text-align: center;
+}
+
 .map-content text {
   cursor: pointer;
 }

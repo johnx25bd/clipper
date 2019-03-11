@@ -1,8 +1,11 @@
 <!--
 Created for CASA0003:  Digital Visualisation at UCL's Centre for Advanced Spatial Analysis, Winter 2019 by John R Hoopes IV.
-Adapted [loosely] from code written for the CASA0005 final project.
+Code written for the CASA0005 final project was referenced.
 Also, based on code from https://github.com/BlackrockDigital/startbootstrap-bare
-Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com. -->
+D3.js Turf.js Boostrap. jQuery.
+Data from Natural Earth. Free vector and raster map data @ naturalearthdata.com.
+Data collected from clipperroundtheworld.com, April - July 2018.
+-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,28 +22,25 @@ Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.
 
   <!--  Custom CSS Files -->
   <link href='assets/css/custom.css' rel='stylesheet'>
-  <link href='assets/css/form.css' rel='stylesheet'>
 
-  <!-- JS to load in head (prior to page rendering) -->
+  <!-- Javascript libraries -->
   <script src="assets/js/d3.js"></script>
   <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.js"></script>
-
 </head>
-
 <body>
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Clipper Vis</a>
+      <a class="navbar-brand" href="#">Visualizing the Clipper Race</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Maps
+            <a class="nav-link" href="#">Race
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -53,20 +53,23 @@ Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.
   </nav>
 
   <!-- svg element for d3 to interact with -->
+  <div class="container-flex main-container">
   <div class='row'>
     <div class='col-8'>
       <svg id='world' class='invisible'>
-        <rect></rect>
       </svg>
+
     </div>
     <div id='race-content' class='col-4'>
       <h3 id="race-day"></h3>
-      <p id='race-date'> </p>
+      <div class='row'>
+        <div class='col-lg-2'><button id='last-day' class='btn-dark'>Prior</button></div>
+        <div class='col-lg-8'><p id='race-date'></p></div>
+          <div class='col-lg-2'><button id="next-day" class='btn-dark'>Next</button></div>
 
     </div>
   </div>
   <!-- Page Content -->
-  <div class="container main-container">
 
   </div>
 
