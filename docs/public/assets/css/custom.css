@@ -28,6 +28,9 @@ nav.navbar {
   text-align: center;
 }
 
+.card {
+  margin-bottom: 25px;
+}
 .map-content text {
   cursor: pointer;
 }

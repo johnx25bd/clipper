@@ -91,7 +91,7 @@ d3.queue() // from https://github.com/d3/d3-queue
     if (error) throw error;
     ready(blogsFromJson);
     updateFleet(0);
-    updateContent(8);
+    updateContent(0);
   });
 
 function ready(_blogData) {
@@ -294,7 +294,7 @@ function updateFleet(_index) {
     .attr('d', function(d, i) {
       return path({
         type: "LineString",
-        coordinates: d.geometry.coordinates.slice(0, _index)
+        coordinates: d.geometry.coordinates.slice(0, _index + 1)
       });
     });
 
