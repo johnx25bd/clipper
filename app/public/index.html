@@ -1,0 +1,79 @@
+<!--
+Created for CASA0003:  Digital Visualisation at UCL's Centre for Advanced Spatial Analysis, Winter 2019 by John R Hoopes IV.
+Adapted [loosely] from code written for the CASA0005 final project.
+Also, based on code from https://github.com/BlackrockDigital/startbootstrap-bare
+Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="A web app to visualize the Clipper 2017-2018 campaign">
+  <meta name="author" content="@robisoniv">
+
+  <!-- Bootstrap core CSS -->
+  <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!--  Custom CSS Files -->
+  <link href='assets/css/custom.css' rel='stylesheet'>
+  <link href='assets/css/form.css' rel='stylesheet'>
+
+  <!-- JS to load in head (prior to page rendering) -->
+  <script src="assets/js/d3.js"></script>
+  <script src="//d3js.org/d3-geo-projection.v1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Clipper Vis</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Maps
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/robisoniv/clipper/" target="_blank">Github</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- svg element for d3 to interact with -->
+  <div class='row'>
+    <div class='col-8'>
+      <svg id='world' class='invisible'>
+      </svg>
+      <button class="btn-lg"></button>
+    </div>
+    <div id='race-content' class='col-4'>
+      <h3 id="race-day"></h3>
+      <p id='race-date'> </p>
+
+    </div>
+  </div>
+  <!-- Page Content -->
+  <div class="container main-container">
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="assets/jquery/jquery.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src='assets/js/client.js'></script>
+</body>
+
+</html>

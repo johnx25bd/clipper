@@ -154,3 +154,52 @@ img.skipper { /* CSS from for continuity https://www.clipperroundtheworld.com/sk
   fill: #cdcccb;
   stroke: #cdcccb;
 }
+
+
+.card .dare-to-lead {
+  border-left: #ffffff 5px solid;
+}
+
+.card .great-britain {
+  border-left: #0d233c 5px solid;
+}
+
+.card .garmin {
+  border-left: #000000 5px solid;
+}
+
+.card .hotelplanner-com {
+  border-left: #f26722 5px solid;
+}
+
+.card .liverpool-2018 {
+  border-left: #ed1968 5px solid;
+}
+
+.nasdaq {
+  border-left: #27ade3 5px solid;
+}
+
+.psp-logistics {
+  border-left: #de1f2b 5px solid;
+}
+
+.card .qingdao {
+  border-left: #f6eb14 5px solid;
+}
+
+.card .sanya-serenity-coast {
+  border-left: #afd136 5px solid;
+}
+
+.card .unicef {
+  border-left: #166fb8 5px solid;
+}
+
+.card .visit-seattle {
+  border-left: #126634 5px solid;
+}
+
+.card .greenings {
+  border-left: #cdcccb 5px solid;
+}

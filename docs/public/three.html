@@ -31,7 +31,7 @@ scene into A-Frame ...  -->
         if (errorC) throw error;
 
         var mls = topojson.mesh(topology, topology.objects.land);
-        mls.coordinates = mls.coordinates.concat(clipper.coordinates);
+        // mls.coordinates = mls.coordinates.concat(clipper.coordinates);
         scene.add(graticule = wireframe(graticule10(), new THREE.LineBasicMaterial({
           color: 0xaaaaaa
         })));
